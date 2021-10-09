@@ -5,12 +5,14 @@
 
 ## ![WRRC Overview](public/images/WRRC.png)
 
+## Deployed Link
+https://city-explorer-jae.netlify.app/
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+This app provides information to a user so they can learn more about a city they are curious about. The site will return the latitude and longitude of the city as well as a map of the city.
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+To create this site for themselves, a user would build a react app and inport bootstrap and axios. Then they would go to LocationIQ and set up an API and Netlify/github to host the site. Then they would build out the react app to gather the user information and send it to Location IQ, and display the results including a map and an error log.
 
 ## Architecture
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
