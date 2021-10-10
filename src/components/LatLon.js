@@ -6,7 +6,7 @@ class LatLon extends React.Component {
   render() {
     return (
       <>
-        <Row classname='border border-info'>
+        <Row className='border border-info'>
           <Col><h4>Lat: {this.props.locationObj.lat}</h4></Col>
           <Col><h4>Lon: {this.props.locationObj.lon}</h4></Col>
         </Row>
