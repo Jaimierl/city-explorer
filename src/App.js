@@ -57,7 +57,7 @@ class App extends React.Component {
       // This here is SENDING the query to the server. SENDING ie request to the server of PartyTown (city) lat, lon.
       // Query parameters here are partytown, lat ,lon
 
-      let shapeOfWeather = await axios.get(`${process.env.REACT_APP_SERVER}/weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`)
+      let shapeOfWeather = await axios.get(`${process.env.REACT_APP_SERVER}weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`)
       // UNCOMMENT BEFORE DEPLOYING!!!! ALSO COMMENT OUT THE LOCAL HOST VERSION ABOVE!!!!!!!!!!!!!!!!!!!!
 
       console.log(shapeOfWeather);
