@@ -5,6 +5,7 @@ import LatLon from './components/LatLon';
 import Error from './components/Error';
 import Container from 'react-bootstrap/Container';
 import Weather from './components/Weather';
+import Row from 'react-bootstrap/Row';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,8 +17,8 @@ class App extends React.Component {
       mapURL: '',
       errorCode: '',
       errorAlert: false,
-      forecast: [],
-      showForecast: false
+      forecastData: [],
+      showForecastData: false
     }
   }
 
@@ -26,12 +27,15 @@ class App extends React.Component {
     console.log('button clicked.')
     console.log(process.env.REACT_APP_API_KEY);
 
-    let URL = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_API_KEY}&q=${this.state.cityName}&format=json`;
-    console.log(URL);
-
 
     // Try & Axios Get Request
     try {
+      // All API calls live in the try. They can be in their own formulas though.
+
+      let URL = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_API_KEY}&q=${this.state.cityName}&format=json`;
+      // Query parameters here are Key, q, and format: remember after the ?
+      console.log(URL);
+
       let locData = await axios.get(URL);
 
       // // Response obj.data
@@ -39,20 +43,24 @@ class App extends React.Component {
 
       // // Set it to state
       this.setState({ locationObj: locData.data[0] })
+      // This is where we restrict the data to only one city.
 
       // This is where we want to create the Map Url. It NEEDS to be underneath the locationObj set State. Its pretty much conditional to info coming back about the city.
       let mapURL = `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_API_KEY}&center=${this.state.locationObj.lat},${this.state.locationObj.lon}&zoom=12&size=500x500`;
+
 
       this.setState({ mapURL })
       console.log(mapURL);
 
       // This is where we want the fakeServer Data
-      let shapeOfWeather = await axios.get(`http://localhost3001/weather?city=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`);
+      let shapeOfWeather = await axios.get(`http://localhost:3001/weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`);
+      // This here is SENDING the query to the server. SENDING ie request to the server of PartyTown (city) lat, lon.
+      // Query parameters here are partytown, lat ,lon
 
       console.log(shapeOfWeather);
       this.setState({
-        forecast: shapeOfWeather.data,
-        showForecast: true
+        forecastData: shapeOfWeather.data,
+        showForecastData: true
       })
     }
 
@@ -86,21 +94,25 @@ class App extends React.Component {
               <h2>City Found: {this.state.locationObj.display_name}</h2>
               <LatLon locationObj={this.state.locationObj} />
               <Map mapImg={this.state.mapURL} />
-              {
-                this.state.showForecast &&
-                this.state.forecast.map((weatherArrayElement, idx) => <Weather weatherArrayElement={weatherArrayElement} key={idx} />)
-              }
+              <Row>
+                {
+                  this.state.showForecastData &&
+                  this.state.forecastData.map((weatherArrayElement, idx) => <Weather weatherArrayElement={weatherArrayElement} key={idx} />)
+                }
+              </Row>
             </div>
           }
-          {this.state.errorAlert &&
+          {
+            this.state.errorAlert &&
             <Error
               errorCode={this.state.errorCode}
               errorAlert={this.state.errorAlert}
               onErrorClose={this.onErrorClose}
             // The last one here is passing a FUNCTION down as PROPS
-            />}
-        </Container>
-      </div>
+            />
+          }
+        </Container >
+      </div >
     );
   }
 }
