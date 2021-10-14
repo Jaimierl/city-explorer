@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import Map from './components/Map'
-import LatLon from './components/LatLon'
-import Error from './components/Error'
-import Container from 'react-bootstrap/Container'
+import Map from './components/Map';
+import LatLon from './components/LatLon';
+import Error from './components/Error';
+import Container from 'react-bootstrap/Container';
+import Weather from './components/Weather';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,6 +16,8 @@ class App extends React.Component {
       mapURL: '',
       errorCode: '',
       errorAlert: false,
+      forecast: [],
+      showForecast: false
     }
   }
 
@@ -42,6 +45,15 @@ class App extends React.Component {
 
       this.setState({ mapURL })
       console.log(mapURL);
+
+      // This is where we want the fakeServer Data
+      let shapeOfWeather = await axios.get(`http://localhost3001/weather?city=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`);
+
+      console.log(shapeOfWeather);
+      this.setState({
+        forecast: shapeOfWeather.data,
+        showForecast: true
+      })
     }
 
     catch (error) {
@@ -74,14 +86,19 @@ class App extends React.Component {
               <h2>City Found: {this.state.locationObj.display_name}</h2>
               <LatLon locationObj={this.state.locationObj} />
               <Map mapImg={this.state.mapURL} />
-              <Error
-                errorCode={this.state.errorCode}
-                errorAlert={this.state.errorAlert}
-                onErrorClose={this.onErrorClose}
-              // The last one here is passing a FUNCTION down as PROPS
-              />
+              {
+                this.state.showForecast &&
+                this.state.forecast.map((weatherArrayElement, idx) => <Weather weatherArrayElement={weatherArrayElement} key={idx} />)
+              }
             </div>
           }
+          {this.state.errorAlert &&
+            <Error
+              errorCode={this.state.errorCode}
+              errorAlert={this.state.errorAlert}
+              onErrorClose={this.onErrorClose}
+            // The last one here is passing a FUNCTION down as PROPS
+            />}
         </Container>
       </div>
     );
