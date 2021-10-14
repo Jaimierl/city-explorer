@@ -8,13 +8,12 @@ class Error extends React.Component {
     console.log('this.props', this.props);
     return (
       <>
-        {(this.props.errorAlert) ?
-          <Alert variant="danger" onClose={this.props.onErrorClose} dismissable>
-            <Alert.Heading> Oh No! You Got an Error!</Alert.Heading>
-            <p>{this.props.errorCode}</p>
-          </Alert>
-          : ''
-        }
+
+        <Alert variant="danger" onClose={this.props.onErrorClose} dismissible>
+          <Alert.Heading> Oh No! You Got an Error!</Alert.Heading>
+          <p>{this.props.errorCode}</p>
+        </Alert>
+
       </>
     );
   }

@@ -47,7 +47,7 @@ class App extends React.Component {
       console.log(mapURL);
 
       // This is where we want the fakeServer Data
-      let shapeOfWeather = await axios.get('http://localhost3001/weather?city=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}');
+      let shapeOfWeather = await axios.get(`http://localhost3001/weather?city=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`);
 
       console.log(shapeOfWeather);
       this.setState({
@@ -86,18 +86,19 @@ class App extends React.Component {
               <h2>City Found: {this.state.locationObj.display_name}</h2>
               <LatLon locationObj={this.state.locationObj} />
               <Map mapImg={this.state.mapURL} />
-              <Error
-                errorCode={this.state.errorCode}
-                errorAlert={this.state.errorAlert}
-                onErrorClose={this.onErrorClose}
-              // The last one here is passing a FUNCTION down as PROPS
-              />
               {
                 this.state.showForecast &&
                 this.state.forecast.map((weatherArrayElement, idx) => <Weather weatherArrayElement={weatherArrayElement} key={idx} />)
               }
             </div>
           }
+          {this.state.errorAlert &&
+            <Error
+              errorCode={this.state.errorCode}
+              errorAlert={this.state.errorAlert}
+              onErrorClose={this.onErrorClose}
+            // The last one here is passing a FUNCTION down as PROPS
+            />}
         </Container>
       </div>
     );
