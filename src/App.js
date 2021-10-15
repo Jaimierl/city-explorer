@@ -6,6 +6,7 @@ import Error from './components/Error';
 import Container from 'react-bootstrap/Container';
 import Weather from './components/Weather';
 import Row from 'react-bootstrap/Row';
+import Movies from './components/Movies';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,7 +19,9 @@ class App extends React.Component {
       errorCode: '',
       errorAlert: false,
       forecastData: [],
-      showForecastData: false
+      showForecastData: false,
+      movieData: [],
+      showMovieData: false
     }
   }
 
@@ -53,17 +56,28 @@ class App extends React.Component {
       console.log(mapURL);
 
       // This is where we want the fakeServer Data
-      // let shapeOfWeather = await axios.get(`http://localhost:3001/weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`);
+      let shapeOfWeather = await axios.get(`http://localhost:3001/weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`);
       // This here is SENDING the query to the server. SENDING ie request to the server of PartyTown (city) lat, lon.
       // Query parameters here are partytown, lat ,lon
 
-      let shapeOfWeather = await axios.get(`${process.env.REACT_APP_SERVER}weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`)
+      // let shapeOfWeather = await axios.get(`${process.env.REACT_APP_SERVER}weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`)
       // UNCOMMENT BEFORE DEPLOYING!!!! ALSO COMMENT OUT THE LOCAL HOST VERSION ABOVE!!!!!!!!!!!!!!!!!!!!
 
       console.log(shapeOfWeather);
       this.setState({
         forecastData: shapeOfWeather.data,
         showForecastData: true
+      })
+
+      let groovyMovies = await axios.get(`http://localhost:3001/movies?partyTown=${this.state.cityName}`);
+      // This here is SENDING the query to the server. SENDING ie request to the server of PartyTown (city) lat, lon.
+
+      // let groovyMovies = await axios.get(`${process.env.REACT_APP_SERVER}movies?partyTown=${this.state.cityName}`)
+
+      console.log(groovyMovies);
+      this.setState({
+        movieData: groovyMovies.data,
+        showMovieData: true
       })
     }
 
@@ -101,6 +115,11 @@ class App extends React.Component {
                 {
                   this.state.showForecastData &&
                   this.state.forecastData.map((weatherArrayElement, idx) => <Weather weatherArrayElement={weatherArrayElement} key={idx} />)
+                }
+              </Row>
+              <Row>
+                {
+                  this.state.showMovieData && this.state.movieData.map((movieArrayElement, idx) => <Movies movieArrayElement={movieArrayElement} key={idx} />)
                 }
               </Row>
             </div>
