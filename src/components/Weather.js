@@ -7,7 +7,7 @@ class Weather extends React.Component {
   render() {
     return (
       <>
-        <Col className='border border-info'>
+        <Col className='border border-info d-flex justify-content-center'>
 
           <Card style={{ width: '18rem' }} className='bg bg-primary'>
             <Card.Body>

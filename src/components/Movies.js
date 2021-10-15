@@ -9,9 +9,9 @@ class Movies extends React.Component {
   render() {
     return (
       <>
-        <Col className='bg bg-light'>
+        <Col className='bg bg-secondary'>
 
-          <Card style={{ width: '18rem', height: '60rem' }} className='bg bg-primary
+          <Card style={{ width: '18rem', height: '80rem' }} className='bg bg-primary
           m-3'>
             <Card.Img
               variant="top" src={this.props.movieArrayElement.image_url} />
