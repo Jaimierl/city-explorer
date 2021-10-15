@@ -11,12 +11,14 @@ class Movies extends React.Component {
       <>
         <Col className='bg bg-light'>
 
-          <Card style={{ width: '18rem' }} className='bg bg-primary'>
-            <Card.Img variant="top" src={this.props.movieArrayElement.image_url} />
+          <Card style={{ width: '18rem', height: '60rem' }} className='bg bg-primary
+          m-3'>
+            <Card.Img
+              variant="top" src={this.props.movieArrayElement.image_url} />
             <Card.Body>
               <Card.Title>{this.props.movieArrayElement.title}</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">Released On: {this.props.movieArrayElement.released_on}</Card.Subtitle>
-              <Card.Text>Overview:
+              <Card.Text className='fw-bold'>Overview:
                 {this.props.movieArrayElement.overview}
               </Card.Text>
             </Card.Body>
