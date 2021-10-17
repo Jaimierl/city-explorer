@@ -1,24 +1,22 @@
 import React from 'react';
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
 import Col from 'react-bootstrap/Col'
+import WeatherDay from './WeatherDay'
 
 class Weather extends React.Component {
   render() {
+    let forecastLookahead = this.props.forecastData.map((dailyWeather, idx) =>
+      <WeatherDay
+        data={dailyWeather.date}
+        description={dailyWeather.description}
+        key={idx}
+      />)
+
     return (
       <>
         <Col className='border border-info d-flex justify-content-center'>
-
-          <Card style={{ width: '18rem' }} className='bg bg-primary'>
-            <Card.Body>
-              <Card.Title>{this.props.weatherArrayElement.date}</Card.Title>
-              <Card.Text>
-                {this.props.weatherArrayElement.description}
-              </Card.Text>
-              <Button variant="light">Cool! Weather!</Button>
-            </Card.Body>
-          </Card>
-
+          
+            {forecastLookahead}
+          
         </Col>
       </>
     );

@@ -56,11 +56,11 @@ class App extends React.Component {
       console.log(mapURL);
 
       // This is where we want the fakeServer Data
-      // let shapeOfWeather = await axios.get(`http://localhost:3001/weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`);
+      let shapeOfWeather = await axios.get(`http://localhost:3001/weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`);
       // This here is SENDING the query to the server. SENDING ie request to the server of PartyTown (city) lat, lon.
       // Query parameters here are partytown, lat ,lon
 
-      let shapeOfWeather = await axios.get(`${process.env.REACT_APP_SERVER}weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`)
+      // let shapeOfWeather = await axios.get(`${process.env.REACT_APP_SERVER}weather?partyTown=${this.state.cityName}&lat=${this.state.locationObj.lat}&lon=${this.state.locationObj.lon}`)
       // UNCOMMENT BEFORE DEPLOYING!!!! ALSO COMMENT OUT THE LOCAL HOST VERSION ABOVE!!!!!!!!!!!!!!!!!!!!
 
       console.log(shapeOfWeather);
@@ -69,10 +69,10 @@ class App extends React.Component {
         showForecastData: true
       })
 
-      // let groovyMovies = await axios.get(`http://localhost:3001/movies?partyTown=${this.state.cityName}`);
+      let groovyMovies = await axios.get(`http://localhost:3001/movies?partyTown=${this.state.cityName}`);
       // This here is SENDING the query to the server. SENDING ie request to the server of PartyTown (city) lat, lon.
 
-      let groovyMovies = await axios.get(`${process.env.REACT_APP_SERVER}movies?partyTown=${this.state.cityName}`)
+      // let groovyMovies = await axios.get(`${process.env.REACT_APP_SERVER}movies?partyTown=${this.state.cityName}`)
 
       console.log(groovyMovies);
       this.setState({
@@ -88,12 +88,18 @@ class App extends React.Component {
       this.setState({ errorCode: error.message });
       this.setState({ errorAlert: true });
     }
-  }
+  };
+
+  handleEnter = e => {
+    if (e.keyCode === 13) {
+      this.getLocation();
+    }
+  };
 
   onErrorClose = () => {
     this.setState({ errorAlert: false });
     console.log('onErrorClose: ', this.state.onErrorClose);
-  }
+  };
 
   render() {
     console.log(this.state.mapImg);
@@ -102,7 +108,9 @@ class App extends React.Component {
         <Container fluid='md' className='p-5 m-3 bg-secondary text-center'>
           <h1>Enter A City</h1>
           <h3>{this.state.cityName}</h3>
-          <input onChange={(event) => this.setState({ cityName: event.target.value })}>
+          <input
+            onChange={(event) => this.setState({ cityName: event.target.value })}
+            onKeyPress={this.handleEnter}>
           </input>
           <button onClick={this.getLocation}>Explore!</button>
           {
@@ -113,13 +121,13 @@ class App extends React.Component {
               <Map mapImg={this.state.mapURL} />
               <Row>
                 {
-                  this.state.showForecastData &&
-                  this.state.forecastData.map((weatherArrayElement, idx) => <Weather weatherArrayElement={weatherArrayElement} key={idx} />)
+                  this.state.showForecastData && <Weather forecastData={this.state.forecastData} />
                 }
               </Row>
               <Row>
                 {
-                  this.state.showMovieData && this.state.movieData.map((movieArrayElement, idx) => <Movies movieArrayElement={movieArrayElement} key={idx} />)
+                  this.state.showMovieData &&
+                  <Movies movieData={this.state.movieData} />
                 }
               </Row>
             </div>
