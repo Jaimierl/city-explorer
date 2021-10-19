@@ -1,5 +1,4 @@
 import React from 'react';
-import CardGroup from 'react-bootstrap/CardGroup'
 
 
 import MovieSingles from './MovieSingles'
