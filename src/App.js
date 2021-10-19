@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Weather from './components/Weather';
 import Row from 'react-bootstrap/Row';
 import Movies from './components/Movies';
+import Main from './components/Main';
 
 class App extends React.Component {
   constructor(props) {
